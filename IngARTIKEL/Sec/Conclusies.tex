@@ -1,0 +1,26 @@
+De hoofdvraag ``\textit{Hoe kan een werkend systeem ontwikkeld worden met een MCU die de realtime gemeten luchtvochtigheid en temperatuurgegevens door de DHT-sensor 
+kan uitlezen, verwerken en met een eigen Wi-Fi netwerk deze gegevens op een toegankelijke wijze kan presenteren via een webinterface op diverse end-devices?}'' 
+is opgedeeld in drie deelvragen voor het uit te voeren van het onderzoek om zo te komen tot een succesvolle resultaat.  
+
+\subsection{Op welke simpele manier kunnen de meetgegevens van de DHT11-sensor realtime uitgelezen worden door een ESP32 MCU?}
+Deze deelvraag omvat een hardware opzet en communicatie software om zo op een simpele manier de meetgegevens van DHT11-sensor realtime uit te kunnen lezen door de ESP32 MCU.
+De toegepaste onderzoeksmethode en de doorlopen stappen hebben geleid tot een succesvolle resultaat. De DHT11-sensor wordt middels seriële communicatie uitgelezen met de opgezette hardware, zie \autoref{fig:ping}.
+Door het test functie toe te voegen heeft dat geholpen bij het controleren van het deelresultaat.
+
+\subsection{Verken op welke elementaire wijze een Wi-Fi netwerk opgezet kan worden met de ESP32 MCU?}
+Uit de verkenning van de documentatieonderzoek van de ESP-IDF is gebleken dat de ESP32 MCU uitgebreide mogelijkheden heeft om een Wi-fi netwerk op te kunnen zetten. Echter, 
+de vraag gaat over het opzetten van een elementaire Wi-Fi-netwerk. De tweede was van belang stap om te komen tot een juiste keuze voor een elementaire opzet van de Wi-Fi netwerk. 
+Met de tweede stap en derde stap is er eerst een succesvolle selectie uit de standaard software bibliotheek gemaakt voor de AP modus en met de derde stap ook de Wi-Fi netwerk gerealiseerd is.
+
+\subsection{Op welke wijze kunnen de meetgegevens continu ververst en gepresenteerd worden via een webinterface?}
+De literatuuronderzoek heeft geleid tot goede inzichten in verschillende oplossingsmogelijkheden. Daarnaast zijn de voor- en nadelen van het toepassen van de verschillende 
+oplossingsmogelijkheden achterhaald om een juiste keuze te kunnen maken voor de opzet van een webinterface. 
+Naast de literatuuronderzoek is er in afwijking op de stappenplan ook de tutorials geraadpleegd om voorbeeld codes te vinden en eventueel te gebruiken bij het implementeren van een oplossing.
+De gekozen methode met bijbehorende stappenplan en de aanvullende acties hebben geresulteerd in een efficiënte en effectieve oplossing voor deze deelvraag. 
+
+\subsection{Eindconclusie}
+Doordat alle drie de deelvragen succesvol zijn doorlopen en deze geïntegreerd beschouwd ook tot de gewenste resultaat heeft geleid, kan er geconcludeerd worden 
+dat de uitvoering van dit onderzoek geslaagd is. Als eindproduct is er ook een werkend systeem ontwikkeld met een ESP32 MCU 
+die de realtime gemeten luchtvochtigheid en temperatuurgegevens door de DHT11-sensor 
+ uitleest en verwerkt en daarna met een eigen Wi-Fi netwerk op een toegankelijke wijze de meetgegevens  
+presenteert via een webinterface op diverse \textit{end-devices}.

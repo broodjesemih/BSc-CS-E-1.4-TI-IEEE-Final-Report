@@ -1,0 +1,115 @@
+Voor dit artikel is gekozen om als primaire methode een formeel ontwerp te realiseren.
+\subsection{Op welke simpele manier kunnen de meetgegevens van de DHT11-sensor realtime uitgelezen worden door een ESP32 MCU?}
+Om deze deelvraag te beantwoorden wordt een literatuur- en technische-specificatie onderzoek gedaan om. Deze methode is een vorm van deskresearch.
+\\
+Er is hiervoor gekozen, omdat de gebruikte hardware gebaseerd is op bepaalde communicatiemogelijkheden die de fabrikant voorgeschreven heeft. 
+Literatuuronderzoek is belangrijk om informatie te verzamelen over het onderwerp, ook is kennis van andere eerdere gedane onderzoeken handig om paraat te hebben, 
+zodat de deze deelvraag op een juiste manier beantwoord kan worden.  
+De te doorlopen stappen hierbij zijn:
+\begin{itemize}
+  \item[\ding{226}] Bestuderen van technische specificaties hoe de benodigde hardware op de juiste manier toegepast kunnen worden:
+  \begin{enumerate}
+    \item DHT11-sensor;
+    \item ESP32 MCU.
+  \end{enumerate}
+  \item[\ding{226}] Literatuuronderzoek naar het uitlezen van meetgegevens door een MCU.
+\end{itemize}
+Voor het hardware ontwerp zijn de technische specificaties essentieel om een werkend ontwerp te kunnen realiseren. 
+Het is belangrijk om andere vergelijkbare ontwerpen die gepubliceerd zijn in andere artikelen door te lezen en om daarvan te leren en daarop verder door te bouwen. 
+
+Als resultaat is het van belang om een werkend systeem op te leveren waarmee realtime de gemeten waarden van de DHT11-sensor uitgelezen en verwerkt kunnen worden door de ESP32 MCU.  
+% De DHT11-sensor communiceert alleen serieel en is er geen andere alternatieve manieren om met elkaar te vergelijken om een onderzoek uit te voeren. 
+% Dit bleek uit onderzoek naar communicatiemogelijkheden van de DHT11-sensor. 
+% Hiervoor zijn de technische specificaties van de DHT11-sensor geraadpleegd en is ook nog een literatuuronderzoek gedaan, maar is er helaas daarover niks over geschreven. 
+
+% \subsection{Verken op welke elementaire wijze een \textit{access point (Wi-Fi)} opgezet kan worden met de ESP32 MCU?}
+\subsection{Verken op welke elementaire wijze een Wi-Fi netwerk opgezet kan worden met de ESP32 MCU?}
+Om deze tweede deelvraag te beantwoorden wordt de ESP-IDF documentatie onderzocht (\textit{deskresearch}). 
+\\ 
+Er is hiervoor gekozen, uit het vooronderzoek gebleken is dat de ESP32 MCU een aantal standaard mogelijkheden kent voor het opzetten van een Wi-Fi netwerk. 
+% Literatuuronderzoek is bij deze methode ondersteund om te leren van andere onderzoekers over de voor- en nadelen van Wi-Fi toepassingsmogelijkheden met de ESP32 MCU. 
+De te doorlopen stappen hierbij zijn:
+\begin{itemize}
+  % \item[\ding{226}] Literatuuronderzoek naar wat een \textit{access point} precies inhoudt;
+  % \item[\ding{226}] Literatuuronderzoek naar welke beschikbare manieren toegepast kunnen worden om een \textit{basic access point} te configureren op de ESP32 MCU;
+  \item[\ding{226}] Bestuderen van ESP-IDF documentatie ter verkennen van Wi-Fi mogelijkheden; 
+  \item[\ding{226}] Vergelijk de verschillende WiFi methoden en configuratie mogelijkheden van ESP32 MCU om daarna een juiste keuze te kunnen maken voor een elementaire Wi-Fi netwerk opzet;
+  \item[\ding{226}] Realiseer met de gekozen Wi-Fi netwerk mogelijkheid de benodigde elementaire Wi-Fi netwerk.
+\end{itemize}
+Er is hiervoor gekozen om op een doeltreffende en simpele wijze gebruik te kunnen maken van de standaard mogelijkheden uit de beschikbare Wi-Fi oplossingen van de ESP32. 
+\\\\
+Er is voldoende resultaat geboekt als er op een simpele manier een werkende elementaire Wi-Fi netwerk gerealiseerd is met de ESP32 MCU.
+
+\subsection{Op welke wijze kunnen de meetgegevens continu ververst en gepresenteerd worden via een webinterface?}
+Om tenslotte de derde deelvraag te kunnen beantwoorden is een literatuuronderzoek gedaan. 
+\\
+Er is voor deze methode gekozen, omdat er ten eerste meerdere programmeermogelijkheden zijn en ten tweede is dit al eerder toegepast door andere onderzoekers. 
+Het is essentieel om de webinterface ververst te houden, zodat de gemeten gegevens ook \textit{realtime} gepresenteerd kunnen worden. 
+De genomen stappen om deze deelvraag te kunnen beantwoorden zijn:
+\begin{itemize}
+  \item[\ding{226}] Literatuuronderzoek naar mogelijke programmeermogelijkheden die gebruikt kunnen worden om een webpagina te verversen;
+  \item[\ding{226}] Op welke wijze kan de gekozen programmeermogelijkheid geïmplementeerd worden en welke functies of methoden horen daar bij;
+  \item[\ding{226}] Onderzoek hoe en welke taal geschikt is om de realtime data te presenteren via de webinterface.
+\end{itemize}
+De manier van aangepakhelpt enerzijds bij het gebruik kunnen maken van de bevindingen van 
+de andere onderzoekers en anderzijds kan dit leiden tot een simpele en efficiënte manier een webinterface te verversen.
+\\\\
+Het resultaat is succesvol te noemen als de uitgevoerde stappen leiden tot een efficiënte en effectieve oplossing voor deze deelvraag.
+% \subsection{Welke webtechnologieën en raamwerken zijn geschikt voor het implementeren van een gebruiksvriendelijke webinterface voor het weergeven van de DHT11-sensorgegevens?}
+% \label{webtech}
+% Voor deze deelvraag is een combinatie van literatuuronderzoek en experiment gedaan om te kiezen welke webtechnologieën en frameworks geschikt zijn. 
+% Er is gekozen voor deze methode, omdat een literatuuronderzoek inzicht geeft in de verschillende webtechnologieën en frameworks die beschikbaar zijn voor het implementeren van webinterfaces. 
+% Het experiment stelt ons in staat om daadwerkelijk te testen met verschillende technologieën en frameworks om hun geschiktheid voor het weergeven van DHT11-sensorgegevens te beoordelen.
+% Het plan van uitvoering omvat de volgende stappen:
+% \begin{itemize}
+%   \item Er zullen verschillende bronnen, zoals documentatie, tutorials en casestudies onderzocht worden om inzicht te krijgen in de beschikbare webtechnologieën en frameworks voor het bouwen van een gebruiksvriendelijke webinterface;
+%   \item Daarna zullen selecties gemaakt worden van de webtechnologieën en frameworks die uit het literatuuronderzoek naar voren komen. 
+%   Vervolgens zullen we deze technologieën en frameworks daadwerkelijk implementeren en testen met behulp van een prototype webinterface voor het weergeven van DHT11-sensorgegevens. We zullen letten op factoren zoals gebruiksvriendelijkheid, responsiviteit, grafische mogelijkheden en integratiemogelijkheden met de ESP32 MCU.
+% \end{itemize}
+
+% b. Praktische evaluatie: We zullen een selectie maken van de veelbelovende webtechnologieën en frameworks die uit het literatuuronderzoek naar voren komen. Vervolgens zullen we deze technologieën en frameworks daadwerkelijk implementeren en testen met behulp van een prototype webinterface voor het weergeven van DHT11-sensorgegevens. We zullen letten op factoren zoals gebruiksvriendelijkheid, responsiviteit, grafische mogelijkheden en integratiemogelijkheden met de ESP32 MCU.
+% c. Vergelijking en analyse: Na het uitvoeren van de praktische evaluatie zullen we de resultaten verzamelen en een vergelijking maken tussen de verschillende geïmplementeerde webtechnologieën en frameworks. We zullen de voor- en nadelen, prestaties en geschiktheid voor het weergeven van DHT11-sensorgegevens beoordelen. Op basis hiervan kunnen we de meest geschikte technologie of het meest geschikte framework voor de gebruiksvriendelijke webinterface selecteren.
+
+% Om de gemeten data te presenteren via de webinterface is het gebruik van markup-taal HTML (\textit{HyperText Markup Language}) 
+% essentieel. Om de webinterface gebruiksvriendelijke te laten lijken wordt er gebruik gemaakt van raamwerk CSS (\textit{Cascading Style Sheets}). 
+% Een andere taal genaamd JS (\textit{JavaScript}) is ook gebruikt om de webinterface \textit{up-to-date} te houden, daar meer over in \autoref{MEET}. 
+% Andere talen zoals Python waren niet van toepassing in dit onderzoeksartikel. 
+% Zie de HTML/CSS/JS code hieronder \cite{electronicshub}:
+% \begin{lstlisting}[language=HTML]
+% <!DOCTYPE html> <html>
+%  <head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">
+%   <title>Realtime DHT11-sensor gegevens</title>
+%   <style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}
+%   h1 {color: #444444;margin: 50px auto 30px;}
+%   p {font-size: 24px;color: #888;}</style>
+% </head>
+%  <body>
+%   <h1>Realtime DHT11-sensor gegevens</h1>
+%    <p>Luchtvochtigheid: " + String(luchtVocht) + "%</p>
+%    <p>Temperatuur: " + String(tempGC) + "C""</p>
+%  </body>
+% </html>
+% \end{lstlisting}
+% Om dit te integreren in C++ kan gebruik worden gemaakt van een \verb|String|-object 
+% om de code op te slaan en te manipuleren. 
+% Zie hieronder de code dat ervoor zorgt dat het HTML/CSS/JS code geïntegreerd wordt 
+% in een C++-programma:
+% \begin{lstlisting}[language=C++]
+% String SendHTML(float luchtVocht, float tempGC) {
+%     String ptr = "<!DOCTYPE html> <html>\n";
+%     ptr += "<head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
+%     ptr += "<title>Realtime DHT11-sensor gegevens</title>\n";
+%     ptr += "<style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}\n";
+%     ptr += "h1 {color: #444444;margin: 50px auto 30px;}\n";
+%     ptr += "p {font-size: 24px;color: #888;}</style>\n";
+%     ptr += "</head>\n";
+%     ptr += "<body>\n";
+%     ptr += "<h1>Realtime DHT11-sensor gegevens</h1>\n";
+%     ptr += "<p>Luchtvochtigheid: " + String(luchtVocht) + "%</p>\n";
+%     ptr += "<p>Temperatuur: " + String(tempGC) + "C";
+%     ptr += "</body>\n";
+%     ptr += "</html>\n";
+%     return ptr;
+%   }
+% \end{lstlisting}
+

@@ -1,0 +1,16 @@
+In dit artikel is er onderzoek gedaan om de volgende onderzoeksvraag te kunnen beantwoorden:\\
+\textit{``Hoe kan de PIC18F4520 microcontroller gebruikt worden om een Tetris gameboy te bouwen met de verkregen componenten en middelen, waaronder de Tetris code?''} 
+
+Na uitgebreid onderzoek onder het kopje \ref{sec:methods}: ``Methoden en Materialen'', en het bouwen van de Tetris gameboy is het vastgesteld dat het mogelijk is om een Tetris gameboy te bouwen met de PIC18F4520 microcontroller. 
+De PIC18F4520 microcontroller wordt in eerste instantie geflashed met de Tetris programmeercode in programmeertaal C/C++. 
+De PIC18F4520 is abstract te vergelijken met het brein van de schakeling, want het is de besturing en logica van het Tetris spel. 
+Terwijl de microcontroller de logica uitvoert, moest de ULN2803A IC de digitale signalen van de PIC18F4520 microcontroller versterken. 
+De ULN2803A stuurt die versterkte digitale signalen daarna weer door naar de twee 8x8 LED matrixen ELM-2881SURWA. 
+Deze LED matrixen dienen voor de graphics van het spel, oftewel de output van het Tetris spel. Daarnaast zijn er vier knopjes gebruikt als input van de Tetris gameboy om het spel te kunnen besturen. 
+Om het spellogica en regels mogelijk te maken is er een algoritme gemaakt die de PIC18F4520 microcontroller in theorie moet gebruiken om de input en output signalen te verwerken. 
+Deze algoritme is omschreven in functies die in woorden beschreven zijn.
+
+Het was een uitdaging om de Tetris gameboy op een perfboard te bouwen met een PIC18F4520 microcontroller, maar het is aangetoond dat het kan. Het resultaat is een werkende Tetris gameboy, die op een perfboard is gerealiseerd. 
+Deze Tetris gameboy is daarnaast nog zelfs te verbeteren door meer functies toe te voegen, zoals een buzzer, aan/uit schakelaar of zelfs door een scorebord. 
+
+Dit project heeft de auteur de gelegenheid gegeven om verder te leren over de werking van o.a. IC's en microcontrollers. Ook heeft de auteur in de praktijk ervaren dat werken met een perfboard in beginsel heel veel vrijheid geeft om al proberend de juiste verdeling van componenten te ontdekken en daarna de verbindingen tot stand te kunnen brengen. Voor een volgend project is gebruik van een PCB ontwerp, wat in het begin meer tijd kost en later minder gedoe geeft, aan te raden. 

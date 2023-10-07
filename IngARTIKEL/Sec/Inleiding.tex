@@ -1,0 +1,36 @@
+Het vastleggen van omgevingseigenschappen, zoals luchtvochtigheid en temperatuur speelt een rol in de verschillende domeinen en worden bijvoorbeeld toegepast in consumptiegoederen, testapparatuur, verwarming, ventilatie en airconditioning \cite{10}. 
+Een veelgebruikt digitaal component voor het meten van luchtvochtigheid en temperatuur is de ``DHT-sensor'' (\textit{Digital Humidity Temperature} sensor) \cite{7855973}. 
+Er bestaan verschillende soorten DHT-sensoren, maar in dit artikel wordt voornamelijk verwezen naar de DHT versie als het gaat om DHT11-sensor. 
+
+In dit artikel wordt specifiek ingegaan op het ontwerpen van hard- en software met een DHT-sensor in combinatie met een MCU unit (MCU),  
+die de gemeten temperatuur en luchtvochtigheid waarden \textit{realtime} kan presenteren op een \textit{end device} met behulp van een webinterface. 
+
+Het probleem dat hier speelt betreft het continu meten van de \textit{realtime} meetwaarden van een ruimte en deze op een toegankelijke wijze te presenteren via een webinterface. 
+
+% Hoewel de DHT-sensor een handige hulpmiddel is voor het hardwarematig verzamelen van de meetgegevens, 
+% bestaat er nog steeds een technisch probleem in het visualiseren van deze gegevens dat opgelost moet worden. 
+Het technische probleem kan dan vertaald worden als het overdragen van de meetgegevens aan een MCU die deze \textit{realtime} 
+meetgegevens via een op te zetten webinterface meetgegevens kan visualiseren middels een \textit{end device}. 
+
+De relevantie van het oplossen van dit technische probleem is dat het gebruikers in staat stelt om op afstand (\textit{wireless}) en \textit{realtime} de luchtvochtigheid en 
+temperatuur gegevens van een ruimte afgelezen kunnen worden. 
+Dit kan bijvoorbeeld toegepast worden met een IoT (\textit{Internet of Things}) toepassing in de landbouw industrie, waar nauwkeurige realtimegegevens nodig kunnen zijn voor het nemen van beslissingen, bijvoorbeeld het optimaliseren van landbouwprestaties \cite{articl2e}. 
+
+Het doel van dit onderzoek betreft oplossen van technische probleem met een werkend systeem. 
+Om dit doel te behalen is onderzoek gedaan toepassingsmogelijkheden van een MCU in combinatie met de DHT-sensor.  
+
+In het onderzoek is literatuur- en component specificatie documentatieonderzoek als methode gekozen. 
+% De methode die in dit artikel wordt toegepast is gebaseerd op het gebruik van de Arduino IDE (ontwikkelomgeving) in combinatie met de DHT-sensorbibliotheek. 
+
+Het onderzoeken van de werking  en toepassingsmogelijkheden van de DHT-sensor, MCU en het implementeren van het visualiseren via een webinterface vormt het kern van dit onderzoek. 
+De technische aspecten en werking ervan worden in dit artikel besproken. 
+\subsection{Overzicht}
+De lezer zal door dit artikel in de volgende volgorde worden begeleid:
+\begin{itemize}
+    \item[\ding{226}]\autoref{sec:probleem}: \textit{Probleemstelling} worden de hoofdvraag en deelvragen geformuleerd;
+    \item[\ding{226}]\autoref{sec:methods}: \textit{Methoden} worden de toegepaste methoden uitgebreid uitgelegd;
+    \item[\ding{226}]\autoref{sec:results}: \textit{Resultaten} worden de resultaten van de gebruikte methode uitgewerkt;
+    \item[\ding{226}]\autoref{sec:conclusion}: \textit{Conclusies} worden conclusies getrokken uit de resultaten;
+    \item[\ding{226}]\autoref{sec:discussie}: \textit{Discussie} wordt een reflectie gedaan op de opgezette onderzoek.
+    \item[\ding{226}]\autoref{sec:aanbeveling}: \textit{Aanbevelingen} worden aanbevelingen gedaan voor een mogelijke vervolgonderzoek.
+\end{itemize}

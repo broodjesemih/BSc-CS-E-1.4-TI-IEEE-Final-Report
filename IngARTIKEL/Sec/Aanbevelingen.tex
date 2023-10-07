@@ -1,0 +1,20 @@
+Hoewel het onderzoek succesvol was in het ontwikkelen van een werkend systeem met een ESP32 MCU 
+voor het uitlezen en verwerken van realtime gemeten luchtvochtigheids- en temperatuurgegevens via de DHT11-sensor, 
+zijn er enkele aanbevelingen die kunnen helpen bij het uitbreiden van het systeem. 
+\\
+Het uitbreiden van dit concept is zeker mogelijk en aan te bevelen. 
+Aanbevolen uitbreidpunten kunnen zijn:
+\begin{itemize}
+    \item Configuratie opties van de AP: In dit onderzoek was het essentieel om een elementaire Wi-Fi netwerk te configureren, zodat gebruikers op afstand de webinterface kunnen bezoeken. 
+Daarom was gekozen om geen promiscue-modus, continu-scan-modus en beveiligingsmodi te configureren voor de AP. 
+In een vervolgonderzoek zou eventueel beveiligingsmodi geïmplementeerd kunnen worden, zodat alleen toegankelijke gebruikers verbinding kunnen maken met de AP die toegang hebben de webinterface kunnen bezoeken. 
+
+    \item AP uitbreiden met STA/AP-modus: door STA/AP-modus te configureren in plaats van alleen AP kan de ESP32 MCU zowel een client zijn van een thuisnetwerk als een eigen AP zijn. 
+Gebruikers die thuis wonen hoeven dan alleen het IP-adres van de ESP32 in te vullen om de webinterface te bezoeken. 
+Andere ongeautoriseerde mensen (zoals visite) kunnen verbinden met de AP en daarvandaan de webinterface bezoeken. 
+Echter is het belangrijk dat een juiste beveiliging wordt ingesteld. 
+    \item Het hardware-matige uitbreiden met een LCD of OLED display: Ook is deze uitbreiding aan te raden, want met een scherm is het mogelijk om de \textit{realtime} data te presenteren. 
+Een pluspunt van deze uitbreiding zou zijn dat de display gemonteerd kan worden aan een muur, waarna de gemeten data direct leesbaar is. 
+    \item Database: Naast de realtime gemeten data te presenteren via de webinterface, zou het helemaal mooi zijn als de gegevens worden opgeslagen in een database. 
+Door een database te gebruiken kunnen gegevens uitgezet worden tegen de tijd, waarna een grafiek op te stellen is. 
+\end{itemize} 

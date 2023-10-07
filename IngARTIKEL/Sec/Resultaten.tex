@@ -1,0 +1,219 @@
+In dit hoofdstuk staan de resultaten van het onderzoek per deelvraag uitgewerkt. 
+Er is voornamelijk literatuur- en component specifieke documentatieonderzoek als methode gebruikt.  
+%Kwalitatief onderzoek is beschreven met behulp van proza. De metingen van kwantitatief onderzoek zijn verwerkt tot grafieken.
+%Observaties en resultaten van literatuuronderzoek zijn met proza beschreven.
+\subsection{Op welke simpele manier kunnen de meetgegevens van de DHT11-sensor realtime uitgelezen worden door een ESP32 MCU?}
+\label{simpel}
+\begin{itemize}
+    \item[\ding{226}] Onderzoek van de technische specificaties van de DHT11-sensor
+\end{itemize}
+Volgens de datasheet \cite{dht11} van de DHT11-sensor zijn de onderstaande gegevens belangrijk als uitgangspunt: 
+\begin{table}[h]
+    \centering
+    \label{table:tabel12}
+    \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Specificaties}               & \textbf{DHT11-11 sensor}        \\ \hline
+    \textit{Communicatie Protocol}       & \textit{Single-Wire Two-Way} \\ \hline
+    \textit{Temperatuur meetbereik}      & 0 - 50 $^\circ$C      \\ \hline
+    \textit{Luchtvochtigheid meetbereik} & 20 - 90\% RH      \\ \hline
+    \textit{Temperatuur nauwkeurigheid}      & $\pm 2^\circ$C      \\ \hline
+    \textit{Luchtvochtigheid nauwkeurigheid} & $\pm 5$\% RH      \\ \hline
+    \textit{Voedingsbereik}              & 3 - 5.5V DC                     \\ \hline
+    \textit{``Sample period''}           & 2 secondes                    \\ \hline
+    \end{tabular}
+    \linebreak
+    \caption{Technische specificaties van de DHT11-sensor.}
+\end{table}\\
+Deze sensor bevat een \textit{resistive-type} luchtvochtigheidsmetingscomponent en een NTC-component voor de temperatuurmeting. 
+De sensor heeft in totaal vier pennen, namelijk:
+\begin{itemize}
+    \item Pen-1: De $V_{cc}$ ingang met een spanningsingang van 3.3V DC;
+    \item Pen-2: De data pen. Deze kan worden aangesloten aan een van de GPIO (\textit{General Purpose Input Output}) pennen van een MCU;
+    \item Pen-3: Deze pen wordt niet gebruikt;
+    \item Pen-4: De $GND$ pen. Dit is de grond-pen van de DHT11-sensor. 
+\end{itemize}
+De datasheet raadt aan om een 5$k\Omega$ \textit{pull-up resistor} te gebruiken wanneer de kabellengte langer is dan 20 meter.
+
+Als tweede stap is ook een literatuuronderzoek gedaan naar de werking van de DHT11-sensor. 
+Uit deze literatuuronderzoek \cite{G2018} is gebleken dat de DHT11-sensor een \textit{slave device} is. 
+De DHT11-sensor stuurt pas gegevens wanneer de sensor wordt aangespoord door zijn \textit{master device}. 
+De MCU (in dit geval de \textit{master}) doet een verzoek op de databus en wacht tot dat de sensor reageert met meetdata. 
+De DHT11-sensor zal dan vervolgens de gemeten data terug koppelen aan de MCU. 
+Voor het uitlezen van data door de MCU zal deze wijze toegepast moeten worden bij het programmeren. 
+Voor het programmeren kunnen C of C++ als taal gebruikt worden. 
+\begin{itemize}
+    \item[\ding{226}] Onderzoek van de technische specificaties van de ESP32 MCU
+\end{itemize}
+De datasheet \cite{espressif} van de ESP32 MCU is onderzocht. In \autoref{fig:pinout} is de \textit{pinout}-schema van deze MCU weergegeven. 
+Hieronder is een lijst weergegeven met de essentiële technische specificaties die relevant zijn voor het beantwoorden van deze deelvraag.
+\begin{itemize}
+    \item Wi-Fi: IEEE 802.11b/g/n, hierbij wordt alleen 2.4 GHz ondersteund;
+    \item Dual-core 32-bit LX6 microprocessor;
+    \item 448 KB ROM en 520 KB SRAM; 
+    \item 34 GPIO (\textit{General Purpose Input Output}) pennen;
+    \item Arduino (C++) \textit{compatible}.
+\end{itemize}
+Als tweede stap is ook literatuuronderzoek \cite{Maier2017} gedaan naar de werking van de ESP32 MCU. 
+Deze MCU draait een \textit{realtime} operating system genaamd FreeRTOS. 
+Het is een \textit{dual-core} systeem dat ontworpen is om de volgende protocollen te kunnen gebruiken:
+\begin{itemize}
+    \item TCP/IP;
+    \item 802.11 WLAN;
+    \item MAC.
+\end{itemize}
+Deze MCU heeft 34 GPIO-pennen, en met deze pennen kunnen \textit{slave}- en/of \textit{master devices} op aangesloten worden. 
+De ESP32 wordt geprogrammeerd in C en in C++ (Arduino). 
+% Het bedrijf achter de ESP32 MCU heeft ook een documentatie geschreven over de programmeermogelijkheden, deze heet de ``\textit{Espressif Systems Internet of Things development framework}''. 
+Om de ESP32 te programmeren in C++ zijn er ook Arduino bibliotheken beschikbaar. 
+\begin{itemize}
+    \item[\ding{226}] Literatuuronderzoek naar het uitlezen van meetgegevens door een MCU
+\end{itemize}
+Om de meetgegevens van de DHT11-sensor af te lezen, wordt gebruik gemaakt van programmeertaal C++, hierbij wordt de \verb|<DHT11.h>| Arduino bibliotheek gebruikt \cite{Cameron2019}. 
+De pennen dienen op de juiste manier aangesloten te worden, zoals eerder is aangegeven. 
+Zie \autoref{fig:ping} voor de aansluitingsschema en \autoref{fig:sch} voor de schematische weergave ervan.
+
+Nadat in het C++ code de \verb|<DHT11.h>| Arduino bibliotheek is toegevoegd kan het DHT11-object worden aangemaakt. 
+Tijdens het definiëren van het object moeten in de parameters aangegeven worden op welke GPIO-pen de sensor aangesloten is, en welke type DHT11-sensor het is, zie hieronder: 
+\begin{lstlisting}[language=C++]
+DHT11 dht_sensor(21, DHT11);
+\end{lstlisting}
+Om de data van de DHT11-sensor op een juiste manier af te kunnen lezen dienen variabelen aangemaakt te worden voor de luchtvochtigheid en temperatuur. 
+Voor het opslaan van de gemeten data in deze variabelen, worden deze als volgt toegewezen:
+\begin{lstlisting}[language=C++]
+float luchtVocht  = dht_sensor.readHumidity();
+float tempGC = dht_sensor.readTemperature();
+\end{lstlisting}
+
+Om de juiste werking van DHT11-sensor te kunnen testen kan er eventueel gebruik gemaakt worden van de print functie \cite{6997578}, zie hieronder:
+\begin{lstlisting}[mathescape, language=C++]
+Serial.print("Luchtvochtigheid: ");
+Serial.print(luchtVocht);
+Serial.print("% RH");
+Serial.print(" en ");
+Serial.print("Temperatuur: ");
+Serial.print(tempGC);
+Serial.print("${^\circ}$C");
+\end{lstlisting}
+
+% \subsection{Op welke manier kan een \textit{stand-alone} Wi-Fi netwerk worden geprogrammeerd op de ESP32 MCU?}
+% \subsection{Op welke manier kan een simpele \textit{access point} worden geprogrammeerd op de ESP32 MCU?}
+\subsection{Verken op welke elementaire wijze een Wi-Fi netwerk opgezet kan worden met de ESP32 MCU?}
+\begin{itemize}
+    \item[\ding{226}] Bestuderen van ESP-IDF documentatie ter verkennen van Wi-Fi mogelijkheden
+\end{itemize}
+Om erachter te komen hoe op een simpele wijze een Wi-Fi netwerk te programmeren is met de ESP32 MCU, is eerst 
+een documentatieonderzoek gedaan (\textit{deskresearch}) naar welke manieren er beschikbaar zijn om Wi-Fi te configureren op de ESP32 MCU. 
+Volgens de officiële \textit{ESPressif-IDF documentation} \cite{unknowns} zijn er in totaal twee methoden beschikbaar om een Wi-Fi netwerk te configureren op de ESP32 MCU, te weten:  
+\begin{enumerate}
+    \item De \textit{Access Point}-modus: Hiermee kan een AP (\textit{access point}) geconfigureerd worden, waarna andere apparaten (die Wi-Fi ondersteunen) kunnen verbinden met de ESP32 MCU;
+    \item STA/AP-modus: Hiermee kan de ESP32 MCU zowel een client zijn van een andere AP, als een eigen AP terggelijk zijn.
+\end{enumerate}
+Daarnaast zijn er ook nog andere configuratie mogelijkheden beschikbaar voor de AP, STA en STA/AP-modi, namelijk:
+\begin{enumerate}
+    \item Verschillende beveiligingsmodi: denk aan beveiligingen zoals WPA, WPA2, WEP;
+    \item Continu-scan modus: De ESP32 MCU zal op een actieve wijze scannen naar toegangspunten;
+    \item Promiscue modus: Deze modus wordt gebruikt voor het monitoren en bijhouden van IEEE 802.11 (WLAN) pakketten.
+  \end{enumerate}
+\begin{itemize}
+    \item[\ding{226}] Vergelijk de verschillende WiFi methoden en configuratie mogelijkheden van ESP32 MCU om daarna een juiste keuze te kunnen maken voor een elementaire Wi-Fi netwerk opzet
+\end{itemize}
+Een elementaire Wi-Fi netwerk moet een los Wi-FI netwerk zijn, daarom valt de STA/AP af. 
+Daarnaast moet dit netwerk simpel zijn en zijn de continu-scan- en promiscue modi niet van belang. 
+Tenslotte is er gekozen om geen beveiligingsmodi te configureren vanwege elementaire opzet voor een Wi-FI netwerk. 
+De aangegeven vergelijking heeft geresulteerd tot het toepassen van de AP methode, zonder toevoeging van extra configuratie mogelijkheden.
+% In dit artikel is gekozen om een Wi-Fi netwerk te maken door gebruik van \verb|SoftAP| (naam van de AP methode in Arduino). 
+\begin{itemize}
+    \item[\ding{226}] Realiseer met de gekozen Wi-Fi netwerk mogelijkheid de benodigde elementaire Wi-Fi netwerk
+\end{itemize}
+Het configureren van de AP op de ESP32 MCU wordt gerealiseerd door de ``WiFi.h'' bibliotheek te gebruiken. 
+In deze bibliotheek wordt de AP functionaliteit ook wel \textit{SoftAP} genoemd. 
+Daarnaast moet de AP een SSID (\textit{Service Set IDentifier}, A.K.A. netwerk naam) hebben en kan dit met behulp van de volgende code toegepast worden \cite{Charles2013}:
+\begin{lstlisting}[language=C++]
+#include <WiFi.h>
+/* Naam van netwerk: */
+const char* ssid = "DHT11-sensor-netwerk"; 
+/* (Geen) Wachtwoord van netwerk: */
+const char* password = NULL;
+\end{lstlisting}
+De AP moet ook gekoppeld worden aan een IP-adres, zodat een gebruiker verbinding kan maken met de AP. 
+Met deze onderstaande configuratie wordt het IP-adres, de default gateway en het subnet-masker van de AP geconfigureerd \cite{upesy}:
+\begin{lstlisting}[language=C++]
+IPAddress local_ip(192, 168, 1, 1);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
+\end{lstlisting}
+Om nu de AP te starten hoeft alleen nog in de \verb|void setup()| functie de \verb|WiFi.SoftAP()| en \verb|WiFi.softAPConfig| methoden opgeroepen te worden:
+\begin{lstlisting}[language=C++]
+void setup() {
+    Serial.begin(115200);
+    WiFi.softAP(ssid, password);
+    WiFi.softAPConfig(local_ip, gateway, subnet);
+  }
+\end{lstlisting}
+\subsection{Op welke manier kunnen de meetgegevens continu ververst en gepresenteerd worden via de webinterface?}
+\label{MEET}
+\begin{itemize}
+    \item[\ding{226}] Literatuuronderzoek naar mogelijke programmeermogelijkheden die gebruikt kunnen worden om een webpagina te verversen
+\end{itemize}
+Volgens de uitgevoerde literatuuronderzoek \cite{Lau2020} zijn er meerdere mogelijkheden om een webpagina te verversen. 
+Een van de mogelijkheden is het gebruik van JS (\textit{JavaScript}) code. 
+De JS code gebruikt de \verb|location.refresh()| methode om de webpagina te verversen.
+De JS code kan worden geïmplementeerd in de \textit{source code} van de HTML webpagina. 
+
+Een andere mogelijkheid om de webpagina te verversen is het gebruik van \verb|<meta>| binnen in de HTML code. 
+De \verb|<meta>| tag staat in de header van de HTML code en kan gemanipuleerd worden als \textit{refresh} mogelijkheid \cite{lindgren2001measurement}. 
+Het nadeel van \verb|<meta>| is dat gebruikt kan worden door spammers om zoekmachines voor de gek te houden \cite{Meta}. 
+
+Ook is het mogelijk om AJAX (\textit{Asynchronous JavaScript And XML}) te gebruiken, alleen is dit complexer dan andere twee mogelijkheden, 
+aangezien het een combinatie van webtechnologieën betreft \cite{singh2012ajax}.  
+\begin{itemize}
+    \item[\ding{226}] Op welke wijze kan de gekozen programmeermogelijkheid geïmplementeerd worden en welke functies of methoden horen daar bij
+\end{itemize}
+Om deze deelvraag te beantwoorden is er gekozen om \textit{JavaScript} (JS) te gebruiken. 
+De andere twee mogelijkheden AJAX en \verb|<meta>| vallen af, omdat AJAX te ingewikkeld is voor dit simpele concept en \verb|<meta>| onveiliger is dan JS in verband met spammers. 
+
+Uit het onderzoek is het duidelijk geworden dat met JS mogelijk is om een de webinterface continu \textit{up-to-date} te houden. 
+In JS wordt deze methode ook wel \verb|location.reload()| genoemd. 
+Als een \textit{reload} wordt gebruikt in een webserver, is het wel essentieel om een delay toe te voegen, want anders zal de webserver te veel \textit{refresh requests} krijgen. 
+Een delay van 2 seconden is dan ook nodig voor de DHT11-sensor, aangezien de sensor minimaal 2 seconden nodig heeft om de data op een nauwkeurige manier te meten en beschikbaar te stellen. 
+
+Dit kan uitgevoerd worden in JS met de volgende code \cite{freecodecamp}:
+\begin{lstlisting}[language=JavaScript]
+// De webpagina om de 2 seconden verversen:
+setTimeout(function(){
+    location.reload();
+}, 2000); // 2000 millisecondes = 2 secondes
+\end{lstlisting}
+\begin{itemize}
+    \item[\ding{226}] Onderzoek hoe en welke taal geschikt is om de realtime data te presenteren via de webinterface
+\end{itemize}
+Uit literatuuronderzoek \cite{Krause2016} is gebleken dat er maar één gestandaardiseerde taal wordt gebruikt voor webinterfaces en dat is HTML (\textit{Hypertext Markup Language}). 
+HTML is de kern van een website en daar om heen kunnen andere talen gebruikt worden om de website een betere \textit{user experience} aan te bieden. 
+Voorbeelden van die talen kunnen zijn: CSS (\textit{Cascading Style Sheets}), JS (\textit{JavaScript}), PHP (\textit{Hypertext Preprocessor}) of eventueel Python.
+
+Uit een ander onderzoek \cite{electronicshub} is een voorbeeld (HTML) code interessant gebleken om deze aandachtig te bestuderen, zodat het geleerde toegepast kan worden in dit onderzoek. 
+Door het geleerde is een manier gevonden om de gemeten data \textit{realtime} te presenteren (door gebruik van HTML/CSS/JS):
+\begin{lstlisting}[language=HTML]
+<!DOCTYPE html> <html>
+ <head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">
+  <title>realtime DHT11-sensor gegevens</title>
+  <style>html { font-family: Helvetica; display: inline-block; margin: 0px auto; text-align: center;}
+  h1 {color: #444444;margin: 50px auto 30px;}
+  p {font-size: 24px;color: #888;}
+  </style>
+</head>
+ <body>
+  <h1>realtime DHT11-sensor gegevens:</h1>
+   <p>Luchtvochtigheid: " + String(luchtVocht) + "%</p>
+   <p>Temperatuur: " + String(tempGC) + "C""</p>
+   <script>
+    setTimeout(function() {
+     location.reload(); 
+    }, 1000);
+   </script>
+ </body>
+</html>
+\end{lstlisting}
+% Bij de bovenstaande code wordt er gebruik gemaakt van de \verb|setTimeout(function(){})| methode. 
+% Deze methode wordt gebruikt wanneer je andere code (tussen de brackets) wil uitvoeren met een bepaalde wachttijd (deze wachttijd staat in de parameter van \verb|function()| in milliseconden) \cite{freecodecamp2}.

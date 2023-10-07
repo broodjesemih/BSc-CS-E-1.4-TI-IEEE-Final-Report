@@ -1,0 +1,131 @@
+Een DHT-sensor gecombineerd met een MCU zou het monitoren van luchtvochtigheid en temperatuur in 
+diverse toepassingsgebieden, als een simpele oplossing mogelijk kunnen maken, zoals in een huiskamer.  
+Helaas ontbreekt een simpele hard- en software ontwerp om de gegevens vanuit DHT-sensor te verzamelen en op een bepaalde manier deze data 
+\textit{realtime} aan een eindgebruiker beschikbaar te stellen middels een webinterface. 
+
+% Het centrale probleem hierbij is dan ook: \\
+% ``\textit{Ontwikkel een werkend systeem waarmee door de DHT11-sensor realtime gemeten luchtvochtigheid en temperatuurgegevens  
+% verwerkt kunnen worden door de ESP32 MCU om deze daarna op een toegankelijke wijze te presenteren via een webinterface.}''
+
+\subsection{Probleemanalyse}
+Het probleem kan worden beschreven als het ontbreken van een oplossing voor het realtime visualiseren van de meetgegevens van DHT-sensor via een webinterface. 
+Om de spelende probleem te kanaliseren, is het nodig om de technische aspecten van de te gebruiken hardware te doorgronden en te analyseren.
+
+Een DHT-sensor is een gecombineerde luchtvochtigheid en temperatuursensor die alleen hardware-matig meet en deze gegevens beschikbaar stelt. 
+Technisch gezien ontbreekt aan deze sensor dataverwerking en de communicatie mogelijkheden om de meetgegevens te kunnen presenteren via een webinterface.
+% ESP32 is een krachtige SoC (\textit{System on a Chip}) 
+Om dat mogelijk te maken is er een MCU als hardware nodig die de meetgegevens van de DHT-sensor uit kan lezen, verwerken en vervolgens presenteren via een webinterface. 
+Een ander probleem hierbij betreft de benodigde softwareontwerp waarmee via een Wi-Fi netwerk en webinterface de meetgegevens gepresenteerd kunnen worden op een webpagina via een \textit{end-device}. 
+Echter, om dit probleem op een simpele en doeltreffende manier te tackelen is het een noodzaak om de programmeermogelijkheden en de connectiviteitsopties van de hardware (DHT en MCU) te kennen. 
+\subsection{Vooronderzoek}
+% BRON 1:
+Het doel van dit vooronderzoek is het verzamelen van technische informatie over de DHT11-sensor. 
+Daarnaast zal met dit vooronderzoek een definitie keuze gemaakt worden welke MCU toegepast kan worden om het probleem op te lossen. 
+Daarvoor zijn meerdere literatuur-vooronderzoeken gedaan:
+\begin{itemize}
+    \item[\ding{226}] 
+Uit het eerste literatuuronderzoek \cite{novelan2020monitoring} is gebleken dat de DHT11-sensor in staat is om temperatuur en luchtvochtigheid te meten, en 
+voorzien is van een \textit{calibrated digital signal} voor de uitgang-pen.
+De DHT11-sensor maakt gebruik van de \textit{calibration coefficient} dat in het ``OTP'' (\textit{One-Time-Programmable}) programmageheugen bewaard wordt. 
+Wanneer de sensor de temperatuur- en vochtigheidsveranderingen meet, leest de sensor de \textit{sensor coefficient} uit en voert deze een berekening uit. 
+De DHT11-sensor wordt in klein formaat gefabriceerd, waardoor het praktisch in gebruik is.  
+Ook hebben de onderzoekers van dat dezelfde artikel gebruik gemaakt van een ESP8266 MCU. 
+De reden waarom ze deze MCU hebben gekozen is, omdat de ESP8266 een Wi-Fi chip bevat. 
+De Wi-Fi chip is essentieel voor het opzetten van een Wi-Fi netwerk, dat gebruikers verbindingsmogelijkheden biedt om data af te lezen via een webserver. 
+Daarnaast biedt deze MCU genoeg I/O-pennen, zodat die ingezet kunnen worden voor een \textit{monitoring and controlling application}. 
+Om deze MCU te programmeren vertellen de auteurs dat ze gebruik hebben gemaakt van het software ontwikkel taal en programma genaamd ``Arduino''. 
+\linebreak\linebreak
+De auteurs hadden in hun artikel bijna dezelfde probleemstelling gedefinieerd als in dit artikel. Het betrof de volgende probleemstelling: 
+``\textit{Describing the problem clearly will help in designing and making a temperature and humidity monitoring system tool}''. 
+De auteurs hebben een aantal methoden toegepast, zoals literatuuronderzoek, deskresearch en hardware- en softwareontwerp. 
+% VOLGENDE LIJN:
+\linebreak
+    \item[\ding{226}] In de tweede literatuuronderzoek \cite{srivastava2018measurement} wordt vermeld dat deze DHT11-sensor 
+een complexe luchtvochtigheid en temperatuur meting bevat met een gekalibreerde digitale signaaluitvoer. 
+Het betreft een gecombineerde module voor het waarnemen van vochtigheid en temperatuur. 
+% In dat onderzoeksartikel is onderzocht naar de werking van de DHT11-sensor en hoe gemeten data \textit{realtime} te presenteren is op een LCD-scherm. 
+%     wordt verteld dat de DHT11-sensor in staat is om 
+% luchtvochtigheid- en temperatuur te meten, dat ondersteund wordt door een \textit{calibrated digital signal} uitgang-pen. 
+De DHT11-sensor bestaat uit een \textit{resistive} luchtvochtigheids meetcomponent en een NTC \textit{(Negative Temperature Coefficient)} temperatuur meetcomponent. 
+De DHT11-sensor werkt op seriële communicatie, dat wil zeggen dat data verzonden wordt via één-draad communicatie.  
+Het voordeel van één-draad communicatie is dat het minder vermogen verbruikt in vergelijking met parallel-draad communicatie. 
+Het nadeel is dat één-draad communicatie langer over doet om data van punt \textit{a} naar punt \textit{b} te verzenden \cite{patrick2002serial}. 
+Het procestijd van deze sensor is ongeveer 4 milliseconden, daarnaast moet ook een initialisatie vertraging van één seconde ingesteld worden. 
+De DHT11-sensor is klein van formaat, met een lage energieverbruik waarbij de signaaloverdracht circa tot 20 meter plaats kan vinden. 
+Deze DHT11-sensor bevat vier I/O-pennen, namelijk: de $V_{cc}$-pen, de data-pen, de NC-pen (\textit{Not Connected}) en de $GND$-pen. 
+% volgende lijn2
+\linebreak
+    \item[\ding{226}] De derde literatuuronderzoek \cite{mishra2017interfacing} gaat een stap verder in op de werking van de DHT11-sensor (kopje 3C van dat artikel). 
+Onder dat hoofdstuk wordt uitgelegd dat de DHT11-sensor een temperatuur meetbereik heeft van 0 tot $50^\circ$C met een nauwkeurigheidsmarge van $\pm 2^\circ$C. 
+Het meetbereik van de luchtvochtigheidssensor is 20 tot 90\% RH (\textit{Relative Humidity}) met een nauwkeurigheidsmarge van $\pm 5$\% RH. 
+Ook wordt uitgelegd dat de DHT11-sensor een reageertijd heeft van 1 seconden, frequentie van 1Hz. 
+\linebreak
+% \linebreak\linebreak
+% Uit deze artikelen is een specificatie tabel gemaakt van de DHT11-sensor weergegeven in tabel \ref{table:tabel2}.
+% \begin{table}[h]
+%     \centering
+%     \label{table:tabel2}
+%     \begin{tabular}{|l|l|}
+%     \hline
+%     \textbf{Specificaties}               & \textbf{DHT11-11 sensor}        \\ \hline
+%     \textit{Communicatie Protocol}       & Seriële één-draadcomm. \\ \hline
+%     \textit{Temperatuur meetbereik}      & 0 - 50 graden met $\pm 2^\circ$C      \\ \hline
+%     \textit{Luchtvochtigheid meetbereik} & 20 - 90\% RH met $\pm 5$\% RH      \\ \hline
+%     \textit{Voedingsbereik}              & 3 - 5.5V                      \\ \hline
+%     \textit{Steekproeftrekking}          & 1 seconde                    \\ \hline
+%     \textit{Arduino bibliotheken}        & DHT11 en Adafruit DHT11         \\ \hline
+%     \textit{Signaaloverdracht}           & Max. afstand is 20 meter         \\ \hline
+%     \end{tabular}
+%     \linebreak
+%     \caption{Specificaties van de DHT11-sensor}
+%     \end{table}
+
+    \item[\ding{226}] In de laatste artikel \cite{macheso2021design} is er onderzocht hoe de temperatuur en luchtvochtigheid gepresenteerd kan worden op een web-server. 
+Dit onderzoeksartikel gaat in op de technische specificaties van de DHT22-sensor en ESP32 MCU. 
+Er wordt uitgelegd dat de ESP32 een \textit{low-cost} en \textit{low-power} MCU is. 
+Deze MCU is gebruikt, omdat het een Wi-Fi chip bevat die gebruikt kan worden om een webserver op te zetten. 
+Om de webserver op te zetten wordt er gebruik gemaakt van HTML/CSS/JS en ESP32 Arduino bibliotheken, en deze software wordt ontwikkeld in de Arduino IDE omgeving. 
+\linebreak 
+\item[\ding{226}] Deze vier artikelen geven een aantal oplossingsrichtingen die mogelijk van toepassing kunnen zijn voor dit onderzoek, namelijk:
+\begin{itemize}
+    \item Het gebruik van een ESP32 MCU om een Wi-Fi netwerk op te zetten. Deze ESP32 MCU is gekozen, omdat dit een van de nieuwste Wi-Fi MCU is \cite{esp2313};
+    \item Het bestuderen van de technische data specificaties van de DHT11-sensor, zodat op een juiste wijze een hardware ontwerp ontwikkeld kan worden;
+    \item Het bestuderen en gebruiken van Arduino IDE en de bijbehorende bibliotheken, waarmee de standaard programmeermogelijkheden toegepast kunnen worden.
+\end{itemize}
+% Zie de technische specificaties van de ESP32 MCU in tabel \ref{table:tabel1}
+% \begin{table}[h]
+%     \centering
+%     \label{table:tabel1}
+%     \begin{tabular}{|l|l|}
+%     \hline
+%     \textbf{Technische Specificaties}    & \textbf{ESP32 MCU} \\ \hline
+%     \textit{General Purpose Input Output}             & 36 pennen           \\ \hline
+%     \textit{Analog to Digital Converter}              & 14 pennen           \\ \hline
+%     \textit{Digital To Analog Converter}              & 2 pennen            \\ \hline
+%     \textit{Flash geheugen grootte}   & 16 MB               \\ \hline
+%     \textit{SRAM grootte}             & 250 KB              \\ \hline
+%     \textit{Klok snelheid}    & Max. 240 MHz        \\ \hline
+%     \textit{Wi-Fi frequentie} & 2.4 GHz             \\ \hline
+%     \textit{\begin{tabular}[c]{@{}l@{}}Stroomverbruik in slaapstand\end{tabular}} & 2.5 $\mu$A \\ \hline
+%     \end{tabular}
+%     \linebreak
+%     \caption{Specificaties van de ESP32 MCU}
+%     \end{table}
+\end{itemize}
+\subsection{Vraagstelling}
+De hoofdvraag is:
+\begin{center}
+    ``\textit{Hoe kan een werkend systeem ontwikkeld worden met een MCU die de realtime gemeten luchtvochtigheid en temperatuurgegevens door de DHT-sensor 
+    kan uitlezen, verwerken en met een eigen Wi-Fi netwerk deze gegevens op een toegankelijke wijze kan presenteren via een webinterface op diverse end-devices?}''
+\end{center}
+% oude vraag = Ontwikkel een werkend systeem met een ESP32 MCU die realtime gemeten luchtvochtigheid en temperatuurgegevens door de DHT11-sensor 
+% kan uitlezen en verwerken, waarna de ESP32 MCU met een eigen WiFi netwerk op een toegankelijke wijze de meetgegevens kan presenteren via een webinterface op diverse end-devices.
+Om deze hoofdvraag te kunnen beantwoorden, zijn er drie deelvragen bedacht, namelijk:
+\begin{enumerate}[label=\textit{\Alph*}.]
+    \item Op welke simpele manier kunnen de meetgegevens van de DHT11-sensor realtime uitgelezen worden door een ESP32 MCU?
+    \item Verken op welke elementaire wijze een Wi-Fi netwerk opgezet kan worden met de ESP32 MCU?
+    \item Op welke wijze kunnen de meetgegevens continu ververst en gepresenteerd worden via een webinterface?
+\end{enumerate}
+Deze deelvragen zijn gericht op het verkrijgen van inzicht in de technische mogelijkheden van de te gebruiken hardware (DHT11-sensor en ESP32 MCU) en de mogelijke 
+oplossingsrichtingen voor het ontwikkelen van een simpel en werkend systeem. 
+Het beantwoorden van deze deelvragen zal uiteindelijk moeten leiden tot een oplossing voor het visualiseren van \textit{realtime} luchtvochtigheids- en temperatuurmetingen op een webpagina via een \textit{end-device}.
